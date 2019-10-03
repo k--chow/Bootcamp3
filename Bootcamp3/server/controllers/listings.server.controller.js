@@ -62,10 +62,10 @@ exports.update = function(req, res) {
     if (err)
       res.send(err)
 
-    //listing2.code = req.body.code ? req.body.code : req.body.code;
+    listing2.code = req.body.code ? req.body.code : req.body.code;
     listing2.name = req.body.name
-    //listing2.coordinates = req.body.coordinates
-    //listing2.address = req.body.address
+    listing2.coordinates = req.body.coordinates
+    listing2.address = req.body.address
     
     listing2.save(function(err) {
         if (err)
