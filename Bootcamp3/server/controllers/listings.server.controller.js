@@ -56,25 +56,55 @@ exports.read = function(req, res) {
 /* Update a listing - note the order in which this function is called by the router*/
 exports.update = function(req, res) {
   var listing = req.listing;
-
+  console.log("UPDATE req")
   /* Replace the listings's properties with the new properties found in req.body */
- 
+  Listing.findOne({code: listing.code}, function(err, listing2) {
+    if (err)
+      res.send(err)
+
+    //listing2.code = req.body.code ? req.body.code : req.body.code;
+    listing2.name = req.body.name
+    //listing2.coordinates = req.body.coordinates
+    //listing2.address = req.body.address
+    
+    listing2.save(function(err) {
+        if (err)
+            res.json(err);
+        res.json({
+            message: 'Updated listing',
+            data: listing2
+        });
+    });
+    
+  }); 
   /*save the coordinates (located in req.results if there is an address property) */
  
   /* Save the listing */
 
 };
 
-/* Delete a listing */
+/* Delete a listing */ //nope
 exports.delete = function(req, res) {
   var listing = req.listing;
-
+  
   /* Add your code to remove the listins */
-
+  Listing.remove({
+    _id: listing.id
+  }, function (err, listing) {
+      if (err)
+        res.send(err);
+      res.json({
+          status: "success"
+      });
+  });
 };
 
 /* Retreive all the directory listings, sorted alphabetically by listing code */
 exports.list = function(req, res) {
+  Listing.find({}, function(err, data) {
+    if (err) res.send(error);
+    res.send(data); 
+  }); 
   /* Add your code */
 };
 
